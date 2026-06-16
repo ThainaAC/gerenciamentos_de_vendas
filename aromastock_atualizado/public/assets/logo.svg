@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f0df"/>
+  <rect x="110" y="80" width="180" height="170" rx="20" fill="none" stroke="#111111" stroke-width="10"/>
+  <rect x="155" y="45" width="90" height="45" rx="8" fill="none" stroke="#111111" stroke-width="10"/>
+  <line x1="145" y1="120" x2="255" y2="120" stroke="#111111" stroke-width="7"/>
+  <text x="200" y="175" text-anchor="middle" font-size="38" font-family="Arial" fill="#111111" font-weight="bold">Aroma</text>
+  <text x="200" y="215" text-anchor="middle" font-size="36" font-family="Arial" fill="#111111">Stock</text>
+</svg>
