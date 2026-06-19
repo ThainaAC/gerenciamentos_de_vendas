@@ -6,6 +6,15 @@ class Cliente {
         return $db->query("SELECT * FROM clientes ORDER BY nome")->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function listarPorId($id) {
+        $db = Database::conectar();
+
+        $stmt = $db->prepare("SELECT * FROM clientes WHERE id = ?");
+        $stmt->execute([$id]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public static function salvar($nome, $email, $telefone, $endereco) {
         $db = Database::conectar();
 
@@ -14,6 +23,24 @@ class Cliente {
 
         $stmt = $db->prepare($sql);
         return $stmt->execute([$nome, $email, $telefone, $endereco]);
+    }
+
+    public static function atualizar($id, $nome, $email, $telefone, $endereco) {
+        $db = Database::conectar();
+
+        $sql = "UPDATE clientes
+                SET nome = ?, email = ?, telefone = ?, endereco = ?
+                WHERE id = ?";
+
+        $stmt = $db->prepare($sql);
+
+        return $stmt->execute([
+            $nome,
+            $email,
+            $telefone,
+            $endereco,
+            $id
+        ]);
     }
 
     public static function excluir($id) {
