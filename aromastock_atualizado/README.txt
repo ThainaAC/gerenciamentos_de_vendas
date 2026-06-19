@@ -1,6 +1,6 @@
-AROMASTOCK ATUALIZADO
+AROMASTOCK 
 
-Agora o sistema possui:
+O sistema possui:
 - Cadastro de venda
 - Baixa automática no estoque
 - Registro na tabela vendas
