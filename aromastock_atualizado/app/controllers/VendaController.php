@@ -4,8 +4,10 @@ require_once "../app/models/Venda.php";
 require_once "../app/models/Produto.php";
 require_once "../app/models/Cliente.php";
 
-class VendaController {
-    public function form() {
+class VendaController
+{
+    public function form()
+    {
         Auth::verificar();
 
         $clientes = Cliente::listar();
@@ -14,20 +16,26 @@ class VendaController {
         require "../app/views/vendas/form.php";
     }
 
-    public function registrar() {
+    public function registrar()
+    {
         Auth::verificar();
 
+        $cliente_id = $_POST['cliente_id'] ?? "";
+        $produto_id = $_POST['produto_id'] ?? "";
+        $quantidade = $_POST['quantidade'] ?? "";
+        $data_venda = $_POST['data_venda'] ?? "";
+
         if (
-            Validator::inteiroPositivo($_POST['cliente_id'] ?? "") &&
-            Validator::inteiroPositivo($_POST['produto_id'] ?? "") &&
-            Validator::inteiroPositivo($_POST['quantidade'] ?? "") &&
-            Validator::data($_POST['data_venda'] ?? "")
+            Validator::inteiroPositivo($cliente_id) &&
+            Validator::inteiroPositivo($produto_id) &&
+            Validator::inteiroPositivo($quantidade) &&
+            Validator::dataHoje($data_venda)
         ) {
             $resultado = Venda::registrar(
-                $_POST['cliente_id'],
-                $_POST['produto_id'],
-                $_POST['quantidade'],
-                $_POST['data_venda']
+                $cliente_id,
+                $produto_id,
+                $quantidade,
+                $data_venda
             );
 
             if ($resultado === true) {
@@ -36,7 +44,7 @@ class VendaController {
                 $erro = $resultado;
             }
         } else {
-            $erro = "Dados inválidos.";
+            $erro = "A venda só pode ser registrada com a data de hoje.";
         }
 
         $clientes = Cliente::listar();
@@ -45,7 +53,8 @@ class VendaController {
         require "../app/views/vendas/form.php";
     }
 
-    public function relatorio() {
+    public function relatorio()
+    {
         Auth::verificar();
 
         $vendas = Venda::listar();
@@ -53,7 +62,76 @@ class VendaController {
         require "../app/views/vendas/relatorio.php";
     }
 
-    public function detalhes() {
+    public function editar()
+    {
+        Auth::verificar();
+
+        $id = $_GET['id'] ?? 0;
+
+        $venda = Venda::listarPorId($id);
+        $clientes = Cliente::listar();
+        $produtos = Produto::listar();
+
+        require "../app/views/vendas/editar_vendas.php";
+    }
+
+    public function atualizar()
+    {
+        Auth::verificar();
+
+        $id = $_POST['id'] ?? "";
+        $cliente_id = $_POST['cliente_id'] ?? "";
+        $produto_id = $_POST['produto_id'] ?? "";
+        $quantidade = $_POST['quantidade'] ?? "";
+        $data_venda = $_POST['data_venda'] ?? "";
+
+        if (
+            Validator::inteiroPositivo($id) &&
+            Validator::inteiroPositivo($cliente_id) &&
+            Validator::inteiroPositivo($produto_id) &&
+            Validator::inteiroPositivo($quantidade) &&
+            Validator::dataHoje($data_venda)
+        ) {
+            $resultado = Venda::atualizar(
+                $id,
+                $cliente_id,
+                $produto_id,
+                $quantidade,
+                $data_venda
+            );
+
+            if ($resultado !== true) {
+                header("Location: index.php?controller=venda&action=relatorio&erro=" . urlencode($resultado));
+                exit;
+            }
+
+            header("Location: index.php?controller=venda&action=relatorio&sucesso=venda_atualizada");
+            exit;
+        }
+
+        header("Location: index.php?controller=venda&action=relatorio&erro=data_invalida");
+        exit;
+    }
+
+    public function excluir()
+    {
+        Auth::verificar();
+
+        $id = $_GET['id'] ?? 0;
+
+        $resultado = Venda::excluir($id);
+
+        if ($resultado !== true) {
+            header("Location: index.php?controller=venda&action=relatorio&erro=" . urlencode($resultado));
+            exit;
+        }
+
+        header("Location: index.php?controller=venda&action=relatorio&sucesso=venda_excluida");
+        exit;
+    }
+
+    public function detalhes()
+    {
         Auth::verificar();
 
         $id = $_GET['id'] ?? 0;
@@ -64,3 +142,4 @@ class VendaController {
         require "../app/views/vendas/detalhes.php";
     }
 }
+?>
