@@ -35,6 +35,41 @@ class ClienteController
         exit;
     }
 
+    public function editar()
+    {
+        Auth::verificar();
+
+        $id = $_GET['id'] ?? 0;
+
+        $cliente = Cliente::listarPorId($id);
+
+        require "../app/views/clientes/editar_clientes.php";
+    }
+
+    public function atualizar()
+    {
+        Auth::verificar();
+
+        $id = $_POST['id'] ?? "";
+        $nome = $_POST['nome'] ?? "";
+        $email = $_POST['email'] ?? "";
+        $telefone = $_POST['telefone'] ?? "";
+        $endereco = $_POST['endereco'] ?? "";
+
+        if (
+            Validator::inteiroPositivo($id) &&
+            Validator::texto($nome) &&
+            Validator::email($email) &&
+            Validator::telefone($telefone) &&
+            Validator::texto($endereco)
+        ) {
+            Cliente::atualizar($id, $nome, $email, $telefone, $endereco);
+        }
+
+        header("Location: index.php?controller=cliente&action=index&sucesso=cliente_atualizado");
+        exit;
+    }
+
     public function excluir()
     {
         Auth::verificar();
