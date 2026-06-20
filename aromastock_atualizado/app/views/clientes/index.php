@@ -1,5 +1,9 @@
 <?php require "../app/views/layout/header.php"; ?>
 
+<?php
+$clientes = $clientes ?? [];
+?>
+
 <h4>Clientes</h4>
 
 
@@ -64,7 +68,11 @@
                 <td><?= htmlspecialchars($cliente['telefone']) ?></td>
                 <td><?= htmlspecialchars($cliente['endereco']) ?></td>
                 <td>
-                    <a class="btn red" href="index.php?controller=cliente&action=excluir&id=<?= $cliente['id'] ?>">
+                    <a class="btn red" 
+                        href="index.php?controller=cliente&action=editar&id=<?= $cliente['id'] ?>">
+                        Editar
+                    </a>
+                    <a class="btn blue" href="index.php?controller=cliente&action=excluir&id=<?= $cliente['id'] ?>">
                         Excluir
                     </a>
                 </td>
