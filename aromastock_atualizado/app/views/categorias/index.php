@@ -1,5 +1,9 @@
 <?php require "../app/views/layout/header.php"; ?>
 
+<?php
+$categorias = $categorias ?? [];
+?>
+
 <h4>Categorias</h4>
 
 <div class="card">
@@ -30,6 +34,9 @@
                 <td><?= $categoria['id'] ?></td>
                 <td><?= htmlspecialchars($categoria['nome']) ?></td>
                 <td>
+                      <a class="btn blue"href="index.php?controller=categoria&action=editar&id=<?= $categoria['id'] ?>">
+                        Editar
+                    </a>
                     <a class="btn red" href="index.php?controller=categoria&action=excluir&id=<?= $categoria['id'] ?>">
                         Excluir
                     </a>
