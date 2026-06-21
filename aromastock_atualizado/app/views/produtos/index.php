@@ -1,6 +1,23 @@
 <?php require "../app/views/layout/header.php"; ?>
 
+<?php
+$produtos = $produtos ?? [];
+$categorias = $categorias ?? [];
+?>
+
 <h4>Produtos</h4>
+
+<?php if (isset($_GET['erro']) && $_GET['erro'] == 'produto_vinculado'): ?>
+    <div class="card-panel red lighten-4 red-text text-darken-4">
+        Não é possível excluir este produto, pois ele possui venda ou movimentação registrada.
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 'produto_excluido'): ?>
+    <div class="card-panel green lighten-4 green-text text-darken-4">
+        Produto excluído com sucesso.
+    </div>
+<?php endif; ?>
 
 <div class="card">
     <div class="card-content">
@@ -65,6 +82,9 @@
                 <td>R$ <?= number_format($produto['preco_compra'], 2, ',', '.') ?></td>
                 <td>R$ <?= number_format($produto['preco_venda'], 2, ',', '.') ?></td>
                 <td>
+                    <a class="btn blue"href="index.php?controller=produto&action=editar&id=<?= $produto['id'] ?>">
+                        Editar
+                    </a>
                     <a class="btn red" href="index.php?controller=produto&action=excluir&id=<?= $produto['id'] ?>">
                         Excluir
                     </a>
