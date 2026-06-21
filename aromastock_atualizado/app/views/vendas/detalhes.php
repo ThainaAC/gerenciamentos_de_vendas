@@ -1,5 +1,10 @@
 <?php require "../app/views/layout/header.php"; ?>
 
+<?php
+$venda = $venda ?? null;
+$itens = $itens ?? [];
+?>
+
 <h4>Detalhes da Venda</h4>
 
 <?php if (!$venda): ?>
