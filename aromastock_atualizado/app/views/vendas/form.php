@@ -1,5 +1,11 @@
 <?php require "../app/views/layout/header.php"; ?>
 
+<?php
+$venda = $venda ?? null;
+$clientes = $clientes ?? [];
+$produtos = $produtos ?? [];
+?>
+
 <h4>Registrar Venda</h4>
 
 <?php if (isset($erro)): ?>
