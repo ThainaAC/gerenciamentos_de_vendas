@@ -2,7 +2,7 @@
 
 class Movimentacao {
     public static function registrar($produto_id, $tipo, $quantidade, $preco_compra, $data, $observacao) {
-        $produto = Produto::buscar($produto_id);
+        $produto = Produto::listar($produto_id);
 
         if (!$produto) {
             return "Produto não encontrado.";
